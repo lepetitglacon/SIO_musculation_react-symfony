@@ -8,6 +8,8 @@ use App\Entity\CommentaireAtelier;
 use App\Entity\Sequencetheorique;
 use App\Form\AtelierType;
 use App\Form\CommentaireAtelierType;
+use App\Repository\AtelierRepository;
+use App\Repository\CommentaireAtelierRepository;
 use App\Service\ContainerParametersHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
- * @Route("/atelier")
+ * @Route("atelier")
  */
 class AtelierController extends AbstractController
 {
@@ -162,5 +164,25 @@ class AtelierController extends AbstractController
         }
 
         return $this->redirectToRoute('atelier_index');
+    }
+    /**
+     * @Route("/api/commentaire/atelier/{id}", name="ajouterCommentaire_route", methods={"POST"})
+     * @return Response
+     */
+    public function ajouterCommentaire_route($id, Request $request, AtelierRepository $atelierRepository): Response
+    {
+        $data = $request->toArray();
+        $commentaire = new CommentaireAtelier();
+        $commentaire->setAtelier($atelierRepository->find($id));
+        $commentaire->setProprietaire($this->getUser());
+        $commentaire->setDate(new \DateTime());
+        $commentaire->setTitre($data["titre"]);
+        $commentaire->setMessage($data["message"]);
+
+        $entitymanager = $this->getDoctrine()->getManager();
+        $entitymanager->persist($commentaire);
+
+        $entitymanager->flush();
+        return $this->json($commentaire, 200,[],['groups'=>'atelier']);
     }
 }

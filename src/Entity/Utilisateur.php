@@ -1,16 +1,20 @@
 <?php
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="Utilisateur")
- *
+ * @ApiResource(
+ *      normalizationContext={"groups"={"atelier"}},
+ * )
  */
 class Utilisateur implements UserInterface
 {
@@ -20,12 +24,14 @@ class Utilisateur implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read","atelier"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
+     * @Groups({"read","atelier"})
      */
     private $login;
 
@@ -33,6 +39,10 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="string" )
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
+     * @Groups({"read", "atelier"})
+     * itemOperations={
+     *          "put"={"access_control"="is_granted('ROLE_ADMIN') and object.getEmail == user"}
+     *     }
      */
     private $nomUtilisateur;
 
@@ -40,18 +50,27 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
+     * @Groups({"read", "atelier"})
+     * itemOperations={
+     *          "put"={"access_control"="is_granted('ROLE_ADMIN') and object.getEmail == user"}
+     *     }
      */
     private $prenomUtilisateur;
 
     /**
      * @ORM\Column(type="string", unique=true )
      * @Assert\Email()
+     * @Groups({"read", "atelier"})
+     * itemOperations={
+     *          "put"={"access_control"="is_granted('ROLE_ADMIN') and object.getEmail == user"}
+     *     }
      */
     private $email;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
+     * @Groups({"read"})
      */
     private $password;
 

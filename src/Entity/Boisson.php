@@ -2,11 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BoissonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BoissonRepository::class)
+ * @ApiResource(collectionOperations={
+ *          "get",
+ *          })
  */
 class Boisson
 {
@@ -14,21 +19,25 @@ class Boisson
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"boisson"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"boisson"})
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"boisson"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"boisson"})
      */
     private $image;
 

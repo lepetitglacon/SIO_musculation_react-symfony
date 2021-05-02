@@ -2,11 +2,22 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommentaireAtelierRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CommentaireAtelierRepository::class)
+ * @ApiResource(collectionOperations={
+ *          "get",
+ *          "delete"={"security"="is_granted('ROLE_ADMIN') or object.getProprietaire() == user"},
+ *          "customer_action"={
+ *              "method"="post",
+ *              "security"="is_granted('ROLE_USER')",
+ *              "route_name"="ajouterCommentaire_route"
+ *     }
+ *  },)
  */
 class CommentaireAtelier
 {
@@ -14,27 +25,32 @@ class CommentaireAtelier
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"atelier"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"atelier"})
      */
     private $titre;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"atelier"})
      */
     private $message;
 
     /**
      * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commentaireAteliers")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"atelier"})
      */
     private $proprietaire;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"atelier"})
      */
     private $date;
 

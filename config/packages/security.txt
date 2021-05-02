@@ -1,0 +1,4 @@
+refresh:
+                pattern: ^/api/token/refresh
+                stateless: true
+                anonymous: true
