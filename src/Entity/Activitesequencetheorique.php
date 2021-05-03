@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Activitesequencetype
  *
  * @ORM\Table(name="activitesequencetheorique")
  * @ORM\Entity
+ * @ApiResource()
  */
 class Activitesequencetheorique
 {
@@ -18,6 +21,7 @@ class Activitesequencetheorique
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"sequence"})
      */
     private $id;
 
@@ -25,6 +29,7 @@ class Activitesequencetheorique
      * @var float
      *
      * @ORM\Column(name="perfObjectif", type="float", precision=10, scale=0, nullable=false)
+     * @Groups({"sequence"})
      */
     private $perfobjectif;
 
@@ -32,11 +37,13 @@ class Activitesequencetheorique
      * @var float
      *
      * @ORM\Column(name="intensiteObjectif", type="float", precision=10, scale=0, nullable=false)
+     * @Groups({"sequence"})
      */
     private $intensiteobjectif;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"sequence"})
      */
     private $ordre;
 
@@ -49,6 +56,7 @@ class Activitesequencetheorique
     /**
      * @ORM\ManyToOne(targetEntity=Atelier::class)
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"sequence"})
      */
     private $idatelier;
 

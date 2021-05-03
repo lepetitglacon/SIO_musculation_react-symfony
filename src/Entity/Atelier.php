@@ -13,13 +13,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity
  * @ApiResource(collectionOperations={
  *          "get",
- *          })
+ *          },
+ *     normalizationContext={"groups"={"atelier"}},)
  */
 class Atelier
 {
     /**
      * @var int
-     * @Groups({"atelier"})
+     * @Groups({"atelier", "sequence"})
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -28,42 +29,42 @@ class Atelier
 
     /**
      * @var string
-     * @Groups({"atelier"})
+     * @Groups({"atelier", "sequence"})
      * @ORM\Column(name="titre", type="text", length=65535, nullable=false)
      */
     private $titre;
 
     /**
      * @var string
-     * @Groups({"atelier"})
+     * @Groups({"atelier", "sequence"})
      * @ORM\Column(name="image", type="text", length=65535, nullable=false)
      */
     private $image;
 
     /**
      * @var string
-     * @Groups({"atelier"})
+     * @Groups({"atelier", "sequence"})
      * @ORM\Column(name="uniteDePerformance", type="text", length=65535, nullable=false)
      */
     private $unitedeperformance;
 
     /**
      * @var string
-     * @Groups({"atelier"})
+     * @Groups({"atelier", "sequence"})
      * @ORM\Column(name="uniteDIntensite", type="text", length=65535, nullable=false)
      */
     private $unitedintensite;
 
     /**
      * @var string
-     * @Groups({"atelier"})
+     * @Groups({"atelier", "sequence"})
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
      */
     private $description;
 
     /**
      * @var string
-     * @Groups({"atelier"})
+     * @Groups({"atelier", "sequence"})
      * @ORM\Column(name="resume", type="text", length=65535, nullable=false)
      */
     private $resume;

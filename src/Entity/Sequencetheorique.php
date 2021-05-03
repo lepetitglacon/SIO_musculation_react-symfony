@@ -2,15 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Sequencetheorique
  *
  * @ORM\Table(name="sequencetheorique")
  * @ORM\Entity
+ * @ApiResource(normalizationContext={"groups"={"sequence"}})
  */
 class Sequencetheorique
 {
@@ -20,6 +23,7 @@ class Sequencetheorique
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"sequence"})
      */
     private $id;
 
@@ -27,6 +31,7 @@ class Sequencetheorique
      * @var string
      *
      * @ORM\Column(name="titre", type="text", length=65535, nullable=false)
+     * @Groups({"sequence"})
      */
     private $titre;
 
@@ -34,11 +39,13 @@ class Sequencetheorique
      * @var int
      *
      * @ORM\Column(name="niveau", type="integer", nullable=false)
+     * @Groups({"sequence"})
      */
     private $niveau;
 
     /**
      * @ORM\OneToMany(targetEntity=Activitesequencetheorique::class, mappedBy="idsequencetheorique", orphanRemoval=true)
+     * @Groups({"sequence"})
      */
     private $activitesequencetheoriques;
 

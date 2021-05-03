@@ -9,15 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CommentaireAtelierRepository::class)
- * @ApiResource(collectionOperations={
- *          "get",
- *          "delete"={"security"="is_granted('ROLE_ADMIN') or object.getProprietaire() == user"},
- *          "customer_action"={
- *              "method"="post",
- *              "security"="is_granted('ROLE_USER')",
- *              "route_name"="ajouterCommentaire_route"
- *     }
- *  },)
+ * @ApiResource()
  */
 class CommentaireAtelier
 {
