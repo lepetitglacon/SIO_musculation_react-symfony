@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Atelier;
 use App\Entity\CommentaireAtelier;
 use App\Form\CommentaireAtelierType;
 use App\Repository\CommentaireAtelierRepository;
@@ -28,5 +29,26 @@ class CommentaireAtelierController extends AbstractController
         }
 
         return $this->redirectToRoute('commentaire_atelier_index');
+    }
+
+    /**
+     * @Route("/api/commentaire/atelier/{id}", name="ajouterCommentaire_route", methods={"POST"})
+     * @param Atelier
+     * @return Response
+     */
+    public function new(Request $request, Atelier $atelier): Response
+    {
+        $data = $request->toArray();
+        $commentaire = new CommentaireAtelier();
+        $commentaire->setAtelier($atelier);
+        $commentaire->setProprietaire($this->getUser());
+        $commentaire->setDate(new \DateTime());
+        $commentaire->setTitre($data["titre"]);
+        $commentaire->setTitre($data["message"]);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($commentaire);
+        $em->flush();
+        return $this->json($commentaire,200,[],['groups'=>'atelier']);
     }
 }

@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(collectionOperations={
  *          "get",
  *          },
- *     normalizationContext={"groups"={"atelier"}},)
+ *     normalizationContext={"groups"={"atelier"}})
  */
 class Atelier
 {

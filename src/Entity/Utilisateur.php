@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="Utilisateur")
  * @ApiResource(
- *      normalizationContext={"groups"={"atelier"}},
+ *      normalizationContext={"groups"={"atelier","boisson"}},
  * )
  */
 class Utilisateur implements UserInterface
@@ -24,14 +24,14 @@ class Utilisateur implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read","atelier"})
+     * @Groups({"read","atelier","boisson"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
-     * @Groups({"read","atelier"})
+     * @Groups({"read","atelier","boisson"})
      */
     private $login;
 
@@ -39,7 +39,7 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="string" )
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
-     * @Groups({"read", "atelier"})
+     * @Groups({"read", "atelier","boisson"})
      * itemOperations={
      *          "put"={"access_control"="is_granted('ROLE_ADMIN') and object.getEmail == user"}
      *     }
@@ -50,7 +50,7 @@ class Utilisateur implements UserInterface
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
-     * @Groups({"read", "atelier"})
+     * @Groups({"read", "atelier","boisson"})
      * itemOperations={
      *          "put"={"access_control"="is_granted('ROLE_ADMIN') and object.getEmail == user"}
      *     }
@@ -60,7 +60,7 @@ class Utilisateur implements UserInterface
     /**
      * @ORM\Column(type="string", unique=true )
      * @Assert\Email()
-     * @Groups({"read", "atelier"})
+     * @Groups({"read", "atelier","boisson"})
      * itemOperations={
      *          "put"={"access_control"="is_granted('ROLE_ADMIN') and object.getEmail == user"}
      *     }
@@ -76,6 +76,7 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"read","atelier","boisson"})
      */
     private $roles = [];
 
@@ -83,6 +84,11 @@ class Utilisateur implements UserInterface
      * @ORM\OneToMany(targetEntity=CommentaireAtelier::class, mappedBy="proprietaire", orphanRemoval=true)
      */
     private $commentaireAteliers;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommentaireBoisson::class, mappedBy="proprietaire")
+     */
+    private $commentaireBoissons;
 
     /**
      * Utilisateur constructor.
@@ -97,6 +103,7 @@ class Utilisateur implements UserInterface
         $this->password = "";
         $this->roles = "";
         $this->commentaireAteliers = new ArrayCollection();
+        $this->commentaireBoissons = new ArrayCollection();
     }
 
     public function getId(): int
@@ -227,6 +234,36 @@ class Utilisateur implements UserInterface
             // set the owning side to null (unless already changed)
             if ($commentaireAtelier->getProprietaire() === $this) {
                 $commentaireAtelier->setProprietaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentaireBoisson[]
+     */
+    public function getCommentaireBoissons(): Collection
+    {
+        return $this->commentaireBoissons;
+    }
+
+    public function addCommentaireBoisson(CommentaireBoisson $commentaireBoisson): self
+    {
+        if (!$this->commentaireBoissons->contains($commentaireBoisson)) {
+            $this->commentaireBoissons[] = $commentaireBoisson;
+            $commentaireBoisson->setProprietaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaireBoisson(CommentaireBoisson $commentaireBoisson): self
+    {
+        if ($this->commentaireBoissons->removeElement($commentaireBoisson)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaireBoisson->getProprietaire() === $this) {
+                $commentaireBoisson->setProprietaire(null);
             }
         }
 

@@ -3,59 +3,56 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\CommentaireAtelierRepository;
+use App\Repository\CommentaireBoissonRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=CommentaireAtelierRepository::class)
+ * @ORM\Entity(repositoryClass=CommentaireBoissonRepository::class)
  * @ApiResource(collectionOperations=
  *     {
  *          "delete"={
  *     "security"="is_granted('ROLE_ADMIN') or object.getProprietaire() == user"}
  *     },
- *     normalizationContext={"groups"={"atelier"}})
+ *     normalizationContext={"groups"={"boisson"}})
  */
-class CommentaireAtelier
+class CommentaireBoisson
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"atelier"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="text")
-     * @Groups({"atelier"})
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"boisson"})
      */
     private $titre;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"atelier"})
+     * @Groups({"boisson"})
      */
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commentaireAteliers")
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups({"atelier"})
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commentaireBoissons")
+     * @Groups({"boisson"})
      */
     private $proprietaire;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"atelier"})
+     * @Groups({"boisson"})
      */
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Atelier::class, inversedBy="commentaires")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Boisson::class, inversedBy="commentaireBoissons")
      */
-    private $atelier;
+    private $boisson;
 
     public function getId(): ?int
     {
@@ -110,14 +107,14 @@ class CommentaireAtelier
         return $this;
     }
 
-    public function getAtelier(): ?Atelier
+    public function getBoisson(): ?Boisson
     {
-        return $this->atelier;
+        return $this->boisson;
     }
 
-    public function setAtelier(?Atelier $atelier): self
+    public function setBoisson(?Boisson $boisson): self
     {
-        $this->atelier = $atelier;
+        $this->boisson = $boisson;
 
         return $this;
     }

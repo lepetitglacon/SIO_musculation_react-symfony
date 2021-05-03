@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BoissonRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -40,6 +42,16 @@ class Boisson
      * @Groups({"boisson"})
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommentaireBoisson::class, mappedBy="boisson")
+     */
+    private $commentaireBoissons;
+
+    public function __construct()
+    {
+        $this->commentaireBoissons = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,6 +90,36 @@ class Boisson
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentaireBoisson[]
+     */
+    public function getCommentaireBoissons(): Collection
+    {
+        return $this->commentaireBoissons;
+    }
+
+    public function addCommentaireBoisson(CommentaireBoisson $commentaireBoisson): self
+    {
+        if (!$this->commentaireBoissons->contains($commentaireBoisson)) {
+            $this->commentaireBoissons[] = $commentaireBoisson;
+            $commentaireBoisson->setBoisson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaireBoisson(CommentaireBoisson $commentaireBoisson): self
+    {
+        if ($this->commentaireBoissons->removeElement($commentaireBoisson)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaireBoisson->getBoisson() === $this) {
+                $commentaireBoisson->setBoisson(null);
+            }
+        }
 
         return $this;
     }
