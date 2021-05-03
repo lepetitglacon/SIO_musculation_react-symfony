@@ -22,6 +22,7 @@ class CommentaireBoisson
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"boisson"})
      */
     private $id;
 

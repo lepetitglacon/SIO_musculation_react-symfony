@@ -11,9 +11,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BoissonRepository::class)
- * @ApiResource(collectionOperations={
- *          "get",
- *          })
+ * @ApiResource(
+ *     normalizationContext={"groups"={"boisson"}}
+ *     )
  */
 class Boisson
 {
@@ -45,6 +45,7 @@ class Boisson
 
     /**
      * @ORM\OneToMany(targetEntity=CommentaireBoisson::class, mappedBy="boisson")
+     * @Groups({"boisson"})
      */
     private $commentaireBoissons;
 

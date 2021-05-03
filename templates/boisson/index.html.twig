@@ -1,41 +1,20 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
 
-{% block title %}Liste des boissons{% endblock %}
-
-{% block menu %}
-    {% import 'macro/macroMenu.html.twig' as macroMenu %}
-    {{ macroMenu.menu('Abdo en acier', 10) }}
-{% endblock %}
+<title>Hello BoissonController!</title>
 
 {% block body %}
-    <h1>Liste des boissons</h1>
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for boisson in boissons %}
-            <tr>
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
 
-                <td> <img src="{{ path('default')}}image/{{ boisson.image }}" height="30"> {{ boisson.titre }}</td>
-                <td>{{ boisson.description }}</td>
-                <td>
-                    <a href="{{ path('boisson_show', {'id': boisson.id}) }}">montrer</a>
-                    <a href="{{ path('boisson_edit', {'id': boisson.id}) }}">éditer</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">Pas encore de boisson</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('boisson_new') }}">Création</a>
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/Users/bapti/PhpstormProjects/Mission2Muscu/src/Controller/BoissonController.php'|file_link(0) }}">src/Controller/BoissonController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/Users/bapti/PhpstormProjects/Mission2Muscu/templates/boisson/index.html.twig'|file_link(0) }}">templates/boisson/index.html.twig</a></code></li>
+    </ul>
+</div>
 {% endblock %}
